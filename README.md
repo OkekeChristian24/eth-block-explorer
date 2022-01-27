@@ -1,4 +1,6 @@
+
 # Getting Started with Create React App
+## run `npm install` or `yarn` to install all dependencies
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
