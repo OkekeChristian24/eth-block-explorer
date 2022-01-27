@@ -6,7 +6,7 @@ import DisplayData from './components/DisplayData';
 import { useEffect, useState } from 'react';
 
 // Infura node needs infura key
-const INFURA_KEY = "f309efef35354293a86d9b2a9da1b3e6";
+const INFURA_KEY = "<your-infura-key>";
 const INFURA_END_POINT = `https://mainnet.infura.io/v3/${INFURA_KEY}`;
 
 // Cloudfare node can also serve
