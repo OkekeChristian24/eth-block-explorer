@@ -66,10 +66,11 @@ function App() {
       (() => toast.error("Internet connection is lost"))();
         console.log("Internet connection is lost");
         return;
-        // Notify user that connection is lost
       }
-      const currentBlock = await web3.eth.getBlock("latest");  
-      setCurrBlock(currentBlock);
+      const currentBlock = await web3.eth.getBlock("latest"); 
+      if(currentBlock != null){
+        setCurrBlock(currentBlock);
+      }
         
     }, 15000);
     
@@ -158,7 +159,7 @@ function App() {
           allBlockTxns != null
           &&
           <>
-            <h3 className='heading'>All transactions of block <span style={{color: 'white'}}>{(allBlockTxns != null) && (allBlockTxns.length > 0) && allBlockTxns[0].blockNumber}</span></h3>
+            <h3 className='heading'>All transactions of block <span style={{color: 'white'}}>{(allBlockTxns.length > 0) && (allBlockTxns[0].blockNumber != null && allBlockTxns[0].blockNumber)}</span></h3>
             <small style={{color: "white"}}>{isMobileWidth && "Scroll right on the table to see other details"}</small>
             <BlockTable rows={allBlockTxns.length > 0 ? allBlockTxns.sort(compare) : [{blockNumber: 0, hash: "Loading...", value: "Loading..."}]} />
           </>

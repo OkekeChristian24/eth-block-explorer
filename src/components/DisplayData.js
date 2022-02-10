@@ -33,7 +33,9 @@ export default function DisplayData({blockNo, noTxns, miner, totalDiff}) {
           </Typography>
           <CardContent>
             <Typography>
-              {blockNo}
+              <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/block/${blockNo}`}>
+                {blockNo}
+              </a>
             </Typography>
           </CardContent>
         </Card>
@@ -45,7 +47,9 @@ export default function DisplayData({blockNo, noTxns, miner, totalDiff}) {
           </Typography>
           <CardContent>
             <Typography>
-              {noTxns}
+              <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/txs?block=${blockNo}`}>
+                {noTxns}
+              </a>
             </Typography>
           </CardContent>
         </Card>
@@ -57,7 +61,9 @@ export default function DisplayData({blockNo, noTxns, miner, totalDiff}) {
           </Typography>
           <CardContent>
             <Typography>
-              {miner}
+              <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/address/${miner}`}>
+                {miner}
+              </a>
             </Typography>
           </CardContent>
         </Card>
@@ -69,7 +75,10 @@ export default function DisplayData({blockNo, noTxns, miner, totalDiff}) {
           </Typography>
           <CardContent>
             <Typography>
-              {totalDiff}
+              {/*  */}
+              <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/chart/difficulty`}>
+                {totalDiff}
+              </a>
             </Typography>
           </CardContent>
         </Card>
