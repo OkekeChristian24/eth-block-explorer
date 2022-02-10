@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/eth-block-explorer/static/css/main.9fa0cba2.css",
-    "main.js": "/eth-block-explorer/static/js/main.dc62590f.js",
+    "main.js": "/eth-block-explorer/static/js/main.925f19cb.js",
     "index.html": "/eth-block-explorer/index.html",
     "main.9fa0cba2.css.map": "/eth-block-explorer/static/css/main.9fa0cba2.css.map",
-    "main.dc62590f.js.map": "/eth-block-explorer/static/js/main.dc62590f.js.map"
+    "main.925f19cb.js.map": "/eth-block-explorer/static/js/main.925f19cb.js.map"
   },
   "entrypoints": [
     "static/css/main.9fa0cba2.css",
-    "static/js/main.dc62590f.js"
+    "static/js/main.925f19cb.js"
   ]
 }
