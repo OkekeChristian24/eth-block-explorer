@@ -107,11 +107,11 @@ export default function CustomizedTable({ rows }) {
           </TableRow>
         </TableHead>
         <TableBody sx={{backgroundColor: 'black', color: '#33ff33'}}>
-          {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+          {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => row != null && (
             <StyledTableRow key={index}>
               <StyledTableCell sx={{textAlign: 'center', maxWidth: '40px', margin: '0px auto', padding: '0px'}} align="center">{((index + 1) + (page * rowsPerPage))}</StyledTableCell>
-              <StyledTableCell align="center"><a style={{color: "#33ff33", textAlign: "center"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/tx/${row.hash}`}>{formatHash(row.hash)}</a></StyledTableCell>
-              <StyledTableCell align="center">{row.value === "Loading..." ? row.value : (Number(row.value/10**18)).toFixed(5)}</StyledTableCell>
+              <StyledTableCell align="center"><a style={{color: "#33ff33", textAlign: "center"}} target="_blank" rel='noreferrer noopener' href={row.hash != null && `https://etherscan.io/tx/${row.hash}`}>{formatHash(row.hash)}</a></StyledTableCell>
+              <StyledTableCell align="center">{row.value === "Loading..." ? row.value : (row.value != null ? (Number(row.value/10**18)).toFixed(5) : "0.00000")}</StyledTableCell>
             </StyledTableRow>
           )
           
