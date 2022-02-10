@@ -1,4 +1,5 @@
-import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
+
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -48,6 +49,7 @@ const txnStyles = {
   backgroundColor: '#33ff33',
   padding: '8px 12px',
   width: '100px',
+  margin: '0px auto',
   fontWeight: 700
 };
 
@@ -56,15 +58,20 @@ const blockNoStyles = {
   borderRadius: 2,
   backgroundColor: '#33ff33',
   padding: '8px 12px',
-  minWidth: '100px',
+  minWidth: '30px',
+  maxWidth: '40px',
   textAligin: 'center',
-  fontWeight: 700
+  fontWeight: 700,
+  margin: '0px auto'
 };
 
 
 export default function CustomizedTable({ rows }) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  // console.log(rows);
+  let counter = useRef(0);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -75,11 +82,23 @@ export default function CustomizedTable({ rows }) {
     setPage(0);
   };
 
+  const formatHash = (txnHash) => {
+    const dots = "...";
+    const firstFour = txnHash.substring(0, 7);
+    const lastFour = txnHash.substring(35, 42);
+    const displayAcct = " " + firstFour + dots + lastFour;
+    // setFormattedAcct(displayAcct);
+    return displayAcct;
+  }
+
+  useEffect(() => {
+    counter.current = 0;
+  }, [rows]);
 
   return (
     <Grid>
     <TableContainer component={Paper} sx={{backgroundColor: 'black', color: '#33ff33'}}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table sx={{ minWidth: '700px' }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell align="center"><Typography sx={blockNoStyles}>S/N</Typography></StyledTableCell>
@@ -90,11 +109,13 @@ export default function CustomizedTable({ rows }) {
         <TableBody sx={{backgroundColor: 'black', color: '#33ff33'}}>
           {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
             <StyledTableRow key={index}>
-              <StyledTableCell sx={{textAlign: 'center'}} align="center">{index + 1}</StyledTableCell>
-              <StyledTableCell align="center">{row.hash}</StyledTableCell>
-              <StyledTableCell align="center">{row.value}</StyledTableCell>
+              <StyledTableCell sx={{textAlign: 'center', maxWidth: '40px', margin: '0px auto', padding: '0px'}} align="center">{((index + 1) + (page * rowsPerPage))}</StyledTableCell>
+              <StyledTableCell align="center"><a style={{color: "#33ff33", textAlign: "center"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/tx/${row.hash}`}>{formatHash(row.hash)}</a></StyledTableCell>
+              <StyledTableCell align="center">{row.value === "Loading..." ? row.value : (Number(row.value/10**18)).toFixed(5)}</StyledTableCell>
             </StyledTableRow>
-          ))}
+          )
+          
+          )}
         </TableBody>
         <TableFooter sx={{backgroundColor: 'black', color: '#33ff33'}}>
           <TablePagination
@@ -114,43 +135,6 @@ export default function CustomizedTable({ rows }) {
     </TableContainer>
     </Grid>
 
-    // <Grid>
-    // <TableContainer component={Paper} sx={{backgroundColor: 'black', color: '#33ff33'}}>
-    //   <Table sx={{ minWidth: 700 }} aria-label="customized table">
-    //     <TableHead>
-    //       <TableRow>
-    //         <StyledTableCell align="center"><Typography sx={blockNoStyles}>Block No.</Typography></StyledTableCell>
-    //         <StyledTableCell align="center"><Typography sx={txnStyles}>No. Txns</Typography></StyledTableCell>
-    //         <StyledTableCell align="center"><Typography sx={headerStyles}>Miner</Typography></StyledTableCell>
-    //         <StyledTableCell align="center"><Typography sx={headerStyles}>Total Difficulty</Typography></StyledTableCell>
-    //       </TableRow>
-    //     </TableHead>
-    //     <TableBody sx={{backgroundColor: 'black', color: '#33ff33'}}>
-    //       {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-    //         <StyledTableRow key={row.number}>
-    //           <StyledTableCell sx={{textAlign: 'center'}} align="center">{row.number}</StyledTableCell>
-    //           <StyledTableCell align="center">{row.transactions.length}</StyledTableCell>
-    //           <StyledTableCell align="center">{row.miner}</StyledTableCell>
-    //           <StyledTableCell align="center">{row.totalDifficulty}</StyledTableCell>
-    //         </StyledTableRow>
-    //       ))}
-    //     </TableBody>
-    //     <TableFooter sx={{backgroundColor: 'black', color: '#33ff33'}}>
-    //       <TablePagination
-    //         sx={{backgroundColor: 'black', color: '#33ff33'}}
-    //         rowsPerPageOptions={[5, 10, 15]}
-    //         component="div"
-    //         count={rows.length}
-    //         rowsPerPage={rowsPerPage}
-    //         page={page}
-    //         onPageChange={handleChangePage}
-    //         onChangeRowsPerPage={handleChangeRowsPerPage}
-    //       />
-    //     </TableFooter>
-    //   </Table>
-    // </TableContainer>
-    // </Grid>
-
-
+    
   );
 }

@@ -1,32 +1,41 @@
+import { useRef, useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import './App.css';
 import BlockTable from './components/BlockTable';
 import DisplayData from './components/DisplayData';
-import { useEffect, useState } from 'react';
 
 // Infura node needs infura key
 const INFURA_KEY = "<your-infura-key>";
-const INFURA_END_POINT = `https://mainnet.infura.io/v3/${INFURA_KEY}`;
+// 
+// const INFURA_END_POINT = `https://mainnet.infura.io/v3/${INFURA_KEY}`;
+const INFURA_END_POINT = `https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161`;
 
 // Cloudfare node can also serve
 const CLOUDFARE = 'https://cloudflare-eth.com';
 
 
-function App() {
-
-  // Initialize web3
+  // Initialize web3 with either CLOUDFARE or INFURA_END_POINT nodes
   const web3 = new window.Web3(INFURA_END_POINT);
 
+function App() {
+  // var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+  
   const [currBlock, setCurrBlock] = useState({});
   const [prevBlock, setPrevBlock] = useState({});
   const [acceptedBlock, setAcceptedBlock] = useState({});
   const [blockHistory, setBlockHistory] = useState([]);
   const [allBlockTxns, setAllBlockTxns] = useState([]);
+  const [isMobileWidth, setIsMobileWidth] = useState(false);
   const isBrowser = typeof window !== "undefined";
 
+
+
   const compare = ( a, b ) => {
-    if(a.value ===  null || b.value === null){
+    if(a == null || b == null){
+      return 0;
+    }
+    if(a.value ==  null || b.value == null){
       return 0;
     }
     if ( a.value > b.value ){
@@ -38,17 +47,28 @@ function App() {
     return 0;
   }
 
-  useEffect(() => {
-      
-      const interval = setInterval(async () => {
+  const getWindowDimensions = () => {
+    const { innerWidth: width, innerHeight: height} = window;
+    return {
+      width,
+      height
+    };
+  };
 
-          const currentBlock = await web3.eth.getBlock("latest");
-          
-          setCurrBlock(currentBlock);
-          
-      }, 15000);
-      
-      return () => clearInterval(interval);
+
+  useEffect(() => {
+
+    const { width } = getWindowDimensions();
+    setIsMobileWidth(width <= 630);
+    const interval = setInterval(async () => {
+
+        const currentBlock = await web3.eth.getBlock("latest");
+        
+        setCurrBlock(currentBlock);
+        
+    }, 15000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -72,8 +92,12 @@ function App() {
     }        
   }, [currBlock, prevBlock]);
 
+  useEffect(() => {
+    const { width } = getWindowDimensions();
+    setIsMobileWidth(width <= 630);
+    
+  }, [window.innerWidth]);
 
-  
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
@@ -85,22 +109,28 @@ function App() {
           isBrowser 
           
           &&
-
+          acceptedBlock != null
+          &&
           <DisplayData 
-            blockNo={blockHistory.length ? acceptedBlock.number : "Loading..."}
-            noTxns={blockHistory.length ? acceptedBlock.transactions.length : "Loading..."}
-            miner={blockHistory.length ? acceptedBlock.miner : "Loading..."}
-            totalDiff={blockHistory.length ? acceptedBlock.totalDifficulty : "Loading..."}
+            blockNo={acceptedBlock.number != null ? acceptedBlock.number : "Loading..."}
+            noTxns={acceptedBlock.transactions != null && acceptedBlock.transactions.length != null ? acceptedBlock.transactions.length : "Loading..."}
+            miner={acceptedBlock.miner != null ? acceptedBlock.miner : "Loading..."}
+            totalDiff={acceptedBlock.totalDifficulty != null ? acceptedBlock.totalDifficulty : "Loading..."}
           />
         }
 
         <br />
         <br />
         {
-          blockHistory.length
+          blockHistory != null
+          &&
+          blockHistory.length != null
+          &&
+          allBlockTxns != null
           &&
           <>
-            <h3 className='heading'>All transactions of block <span style={{color: 'white'}}>{(allBlockTxns.length > 0) && allBlockTxns[0].blockNumber}</span></h3>
+            <h3 className='heading'>All transactions of block <span style={{color: 'white'}}>{(allBlockTxns != null) && (allBlockTxns.length > 0) && allBlockTxns[0].blockNumber}</span></h3>
+            <small style={{color: "white"}}>{isMobileWidth && "Scroll right on the table to see other details"}</small>
             <BlockTable rows={allBlockTxns.length > 0 ? allBlockTxns.sort(compare) : [{blockNumber: 0, hash: "Loading...", value: "Loading..."}]} />
           </>
         }
