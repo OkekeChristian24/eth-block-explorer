@@ -129,7 +129,7 @@ function App() {
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
-        <h3 style={{color: "white"}}>Chris Eth Block Explorer</h3>
+        <h3 style={{color: "white"}}>Okeke Christian's Eth Block Explorer</h3>
         <h3 className='heading'>Latest Eth block is displayed every 15 secs. (approx.)</h3>
         <hr style={{border: '2px solid green'}}/>
         <h3 className='heading'>Recent Block</h3>
