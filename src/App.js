@@ -1,15 +1,16 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import './App.css';
 import BlockTable from './components/BlockTable';
 import DisplayData from './components/DisplayData';
+import toast, { Toaster } from "react-hot-toast";
+
 
 // Infura node needs infura key
-const INFURA_KEY = "<your-infura-key>";
+const INFURA_KEY = "9aa3d95b3bc440fa88ea12eaa4456161";
 // 
-// const INFURA_END_POINT = `https://mainnet.infura.io/v3/${INFURA_KEY}`;
-const INFURA_END_POINT = `https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161`;
+const INFURA_END_POINT = `https://mainnet.infura.io/v3/${INFURA_KEY}`;
 
 // Cloudfare node can also serve
 const CLOUDFARE = 'https://cloudflare-eth.com';
@@ -61,10 +62,14 @@ function App() {
     const { width } = getWindowDimensions();
     setIsMobileWidth(width <= 630);
     const interval = setInterval(async () => {
-
-        const currentBlock = await web3.eth.getBlock("latest");
-        
-        setCurrBlock(currentBlock);
+      if(window.navigator != null && window.navigator.onLine != null && !window.navigator.onLine){
+      (() => toast.error("Internet connection is lost"))();
+        console.log("Internet connection is lost");
+        return;
+        // Notify user that connection is lost
+      }
+      const currentBlock = await web3.eth.getBlock("latest");  
+      setCurrBlock(currentBlock);
         
     }, 15000);
     
@@ -98,9 +103,33 @@ function App() {
     
   }, [window.innerWidth]);
 
+  const tOptions = {
+    error: {
+      style: {
+        background: '#ff1a1a',
+        color: '#ffffff',
+        paddingRight: '30px',
+        paddingLeft: '30px',
+        fontWeight: '500',
+        fontSize: '18px'
+      }
+    },
+    success: {
+      style: {
+        background: '#059862',
+        color: '#ffffff',
+        paddingRight: '30px',
+        paddingLeft: '30px',
+        fontWeight: '500',
+        fontSize: '18px'
+      }
+    }
+  };
+
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
+        <h3 style={{color: "white"}}>Chris Eth Block Explorer</h3>
         <h3 className='heading'>Latest Eth block is displayed every 15 secs. (approx.)</h3>
         <hr style={{border: '2px solid green'}}/>
         <h3 className='heading'>Recent Block</h3>
@@ -135,6 +164,7 @@ function App() {
           </>
         }
       </Box>
+      <Toaster toastOptions={tOptions} />
     </Container>
   );
 }
