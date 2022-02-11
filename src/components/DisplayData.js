@@ -33,9 +33,15 @@ export default function DisplayData({blockNo, noTxns, miner, totalDiff}) {
           </Typography>
           <CardContent>
             <Typography>
-              <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/block/${blockNo}`}>
-                {blockNo}
-              </a>
+              {
+                blockNo === "" 
+                ?
+                "Loading... Please wait."
+                :
+                <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/block/${blockNo}`}>
+                  {blockNo}
+                </a>
+              }
             </Typography>
           </CardContent>
         </Card>
@@ -47,9 +53,16 @@ export default function DisplayData({blockNo, noTxns, miner, totalDiff}) {
           </Typography>
           <CardContent>
             <Typography>
-              <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/txs?block=${blockNo}`}>
-                {noTxns}
-              </a>
+              {
+                noTxns === ""
+                ?
+                "Loading... Please wait."
+                :
+              
+                <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/txs?block=${blockNo}`}>
+                  {noTxns}
+                </a>
+              }
             </Typography>
           </CardContent>
         </Card>
@@ -61,9 +74,15 @@ export default function DisplayData({blockNo, noTxns, miner, totalDiff}) {
           </Typography>
           <CardContent>
             <Typography>
-              <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/address/${miner}`}>
-                {miner}
-              </a>
+              {
+                miner === ""
+                ?
+                "Loading... Please wait."
+                :
+                <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/address/${miner}`}>
+                  {miner}
+                </a>
+              }
             </Typography>
           </CardContent>
         </Card>
@@ -75,10 +94,16 @@ export default function DisplayData({blockNo, noTxns, miner, totalDiff}) {
           </Typography>
           <CardContent>
             <Typography>
-              {/*  */}
-              <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/chart/difficulty`}>
-                {totalDiff}
-              </a>
+              {
+                totalDiff === ""
+                ?
+                "Loading... Please wait."
+                :
+              
+                <a style={{color: "#33ff33"}} target="_blank" rel='noreferrer noopener' href={`https://etherscan.io/chart/difficulty`}>
+                  {totalDiff}
+                </a>
+              }
             </Typography>
           </CardContent>
         </Card>

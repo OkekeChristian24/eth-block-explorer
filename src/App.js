@@ -142,10 +142,10 @@ function App() {
           acceptedBlock != null
           &&
           <DisplayData 
-            blockNo={acceptedBlock.number != null ? acceptedBlock.number : "Loading..."}
-            noTxns={acceptedBlock.transactions != null && acceptedBlock.transactions.length != null ? acceptedBlock.transactions.length : "Loading..."}
-            miner={acceptedBlock.miner != null ? acceptedBlock.miner : "Loading..."}
-            totalDiff={acceptedBlock.totalDifficulty != null ? acceptedBlock.totalDifficulty : "Loading..."}
+            blockNo={acceptedBlock.number != null ? acceptedBlock.number : ""}
+            noTxns={acceptedBlock.transactions != null && acceptedBlock.transactions.length != null ? acceptedBlock.transactions.length : ""}
+            miner={acceptedBlock.miner != null ? acceptedBlock.miner : ""}
+            totalDiff={acceptedBlock.totalDifficulty != null ? acceptedBlock.totalDifficulty : ""}
           />
         }
 
